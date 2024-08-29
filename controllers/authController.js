@@ -38,17 +38,18 @@ export const register = async (req, res) => {
 }
 
 
+// verify otp
 
 export const verifyOtp = async (req, res) => {
     const { email, otp } = req.body;
-
+    
     try {
         // Find the user by email
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: 'User not found' });
-
+        
         // Check if OTP matches and is not expired
-        if (user.otp !== otp || user.otpExpires < Date.now()) {
+        if (user.otp != otp || user.otpExpires < Date.now()) {
             return res.status(400).json({ msg: 'Invalid or expired OTP' });
         }
 
@@ -69,23 +70,81 @@ export const verifyOtp = async (req, res) => {
 };
 
 
-
-// Login Route
+// Login 
 export const login = async (req, res) => {
-//   const { email, password } = req.body;
-//   try {
-//     const user = await User.findOne({ email:email });
-//     if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
+    const { email, password } = req.body;
 
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
+    try {
+      // Find the user by email
+      const user = await User.findOne({ email: email });
+  
+      // Check if the user exists
+      if (!user) {
+        return res.status(400).json({ msg: 'Invalid credentials' });
+      }
+  
+      // Check if the user's email is verified
+      if (!user.isVerified) {
+        return res.status(400).json({ msg: 'Please verify your email to login.' });
+      }
+  
+      // Check if the password is correct
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ msg: 'Invalid credentials' });
+      }
+  
+      // Generate a JWT token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  
+      // Respond with the token and user information
+      res.json({
+        msg: 'Login successful!',
+        token,
+        user: {
+          id: user._id,
+          email: user.email,
+          name: user.name,
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ msg: 'Server error' });
+    }
+  }
+  
 
-//     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-//     res.json({ token, user: { id: user._id, email: user.email } });
+// Forgot password
 
-
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ msg: 'Server error' });
-//   }
-}
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    console.log(email);
+    
+    try {
+      // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) return res.status(400).json({ msg: 'User not found' });
+  
+      // Check if the user's email is verified
+      if (!user.isVerified) return res.status(400).json({ msg: 'Please verify your email before requesting a password reset.' });
+  
+      // Generate OTP
+      const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+      const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // OTP expires in 10 minutes
+  
+      // Update user with new OTP and expiration
+      user.otp = otp;
+      user.otpExpires = otpExpires;
+      await user.save();
+  
+      // Send OTP via email
+      await sendVerificationEmail(email, otp);
+  
+      // Respond with success message
+      res.json({ msg: 'OTP has been sent to your email. Please check your inbox to proceed with resetting your password.' });
+  
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ msg: 'Server error' });
+    }
+  };
