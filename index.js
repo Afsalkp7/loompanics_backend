@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import database from './database/connect.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import auth from './routes/auth.js'
 dotenv.config()
 
 const app = express();
@@ -12,6 +13,9 @@ app.use(bodyParser.json())
 app.use(cors())
 
 database();
+
+// Routes
+app.use('/api/auth', auth);
 
 app.get('/',(req,res)=>{
     res.status(200).json({msg:'connect'})

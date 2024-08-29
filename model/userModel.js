@@ -1,114 +1,133 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-const addressSchema = new mongoose.Schema({
-    firstName:{
-        type:String,
-        required : true
+import bcrypt from 'bcryptjs';
+
+const Schema = mongoose.Schema;
+
+// Address Schema
+const addressSchema = new Schema({
+    firstName: {
+        type: String,
+        required: true,
+        trim: true,
     },
     lastName: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     address1: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     address2: {
-      type: String
+        type: String,
+        trim: true,
     },
     pinCode: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     phoneNumber: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     district: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     state: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     },
     country: {
-      type: String,
-      required: true
+        type: String,
+        required: true,
+        trim: true,
     }
-})
-const cartSchema = new mongoose.Schema({
-    boookId : {
-        type : mongoose.Schema.Types.ObjectId,
+});
+
+// Cart Schema
+const cartSchema = new Schema({
+    bookId: {  // Fixed typo from 'boookId' to 'bookId'
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Books',
-        required:true
+        required: true
     },
-    quantity : {
-        type : Number,
+    quantity: {
+        type: Number,
         default: 1
     }
-})
-const userSchema = new mongoose.Schema({
+});
+
+// User Schema
+const UserSchema = new Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
+        index: true,  // Added index for faster querying
     },
     phoneNumber: {
-        type: Number,
-        required: true
+        type: String,  // Changed to String for consistency
+        required: true,
+        trim: true,
+        index: true,  // Added index for faster querying
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     address: {
-        type: [addressSchema]
+        type: [addressSchema],
     },
     cart: {
-        type: [cartSchema]
+        type: [cartSchema],
     },
     isMember: {
-        type: Boolean
+        type: Boolean,
+        default: false,
+        index: true,  // Added index for faster querying
     },
     memberShipId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref : 'Membership'
+        ref: 'Membership',
     },
-    tookedBooks: [{
+    borrowedBooks: [{  // Changed from 'tookedBooks' to 'borrowedBooks'
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Took'
+        ref: 'Took',
     }],
     orders: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order'
+        ref: 'Order',
     }],
     isVerified: {
         type: Boolean,
-        default: false
+        default: false,
     },
     verificationToken: {
-        type: String
+        type: String,
     },
-    otp : {
-        type : Number
+    otp: {
+        type: Number,
     },
     dateLastLogged: {
-        type: Date
+        type: Date,
+    },
+    otpExpires: {
+        type: Date,
     }
 });
 
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
-        return next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-});
 
-export const User = mongoose.model('User', userSchema);
+export default mongoose.model('User', UserSchema);
