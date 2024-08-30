@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, register } from '../controllers/authController.js';
+import { changePassword, login, register } from '../controllers/authController.js';
 import { verifyOtp } from '../controllers/authController.js';
 import { forgotPassword } from '../controllers/authController.js';
 const router = express.Router();
@@ -15,5 +15,8 @@ router.post('/login', login);
 
 // Forgot password
 router.post('/forgot',forgotPassword)
+
+// password update
+router.put("/password",changePassword)
 
 export default router;

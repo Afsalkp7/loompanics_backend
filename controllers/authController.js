@@ -125,9 +125,6 @@ export const forgotPassword = async (req, res) => {
       const user = await User.findOne({ email });
       if (!user) return res.status(400).json({ msg: 'User not found' });
   
-      // Check if the user's email is verified
-      if (!user.isVerified) return res.status(400).json({ msg: 'Please verify your email before requesting a password reset.' });
-  
       // Generate OTP
       const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
       const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // OTP expires in 10 minutes
@@ -146,5 +143,40 @@ export const forgotPassword = async (req, res) => {
     } catch (err) {
       console.error(err);
       res.status(500).json({ msg: 'Server error' });
+    }
+  };
+
+
+  export const changePassword = async (req, res) => {
+    const { email, password, confirmPassword } = req.body;
+  
+    // Validate request data
+    if (!email || !password || !confirmPassword) {
+      return res.status(400).json({ success: false, msg: 'All fields are required' });
+    }
+    if (password !== confirmPassword) {
+      return res.status(400).json({ success: false, msg: 'Passwords do not match' });
+    }
+  
+    try {
+      // Find the user by email
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ success: false, msg: 'User not found' });
+      }
+  
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Update user's password
+      user.password = hashedPassword;
+      user.isVerified = true
+      await user.save();
+  
+      // Send success response
+      res.status(200).json({ success: true, msg: 'Password updated successfully' });
+    } catch (error) {
+      console.error('Error updating password:', error);
+      res.status(500).json({ success: false, msg: 'An error occurred while updating the password' });
     }
   };
