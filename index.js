@@ -4,6 +4,7 @@ import database from './database/connect.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import auth from './routes/auth.js'
+import adminAuth from './routes/adminAuth.js'
 dotenv.config()
 
 const app = express();
@@ -16,6 +17,7 @@ database();
 
 // Routes
 app.use('/api/auth', auth);
+app.use('/api/adminAuth',adminAuth)
 
 app.get('/',(req,res)=>{
     res.status(200).json({msg:'connect'})
