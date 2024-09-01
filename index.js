@@ -6,6 +6,7 @@ import cors from 'cors'
 import auth from './routes/auth.js'
 import adminAuth from './routes/adminAuth.js'
 import userRouter from './routes/userManagement.js'
+import authorsRouter from './routes/authorsRouter.js'
 dotenv.config()
 
 const app = express();
@@ -20,6 +21,7 @@ database();
 app.use('/api/auth', auth);
 app.use('/api/adminAuth',adminAuth)
 app.use("/api/users",userRouter)
+app.use("/api/authors",authorsRouter)
 
 
 app.get('/',(req,res)=>{

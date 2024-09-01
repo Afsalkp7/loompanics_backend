@@ -1,24 +1,22 @@
 import mongoose from 'mongoose';
 
 const authorSchema = new mongoose.Schema({
-    firstName : {
-        type : String,
-        required : true
-    },
-    lastName : {
-        type : String
-    },
-    bio : {
-        born : Date,
-        died : Date,
-        penName : String,
-        occupation : String,
-        notableWorks : Array
-    },
-    baggedAwards :[{
-        awardTitle : String,
-        awardYear : Date
-    }]
-})
+  firstName: { type: String, required: true },
+  lastName: { type: String },
+  born: { type: Date },
+  died: { type: Date },
+  penName: { type: String },
+  occupation: { type: String },
+  notableWorks: [{ type: String }],
+  awards: [
+    {
+      awardTitle: { type: String },
+      awardYear: { type: Date },
+    }
+  ],
+  image: { type: String },
+});
 
-export const Author = mongoose.model('Author', authorSchema);
+const Author = mongoose.model('Author', authorSchema);
+
+export default Author;
