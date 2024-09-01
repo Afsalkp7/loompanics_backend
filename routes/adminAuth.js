@@ -1,5 +1,5 @@
 import express from 'express';
-import { adminLogin } from '../controllers/adminAuthCotroller.js';
+import { adminChangePassword, adminForgotPassword, adminLogin, adminVerifyOtp } from '../controllers/adminAuthCotroller.js';
 const router = express.Router();
 
 
@@ -7,13 +7,13 @@ const router = express.Router();
 router.post('/login', adminLogin);
 
 // // Verify OTP
-// router.post('/verify-otp', adminVerifyOtp);
+router.post('/verify-otp', adminVerifyOtp);
 
 // // Forgot password
-// router.post('/forgot',adminForgotPassword)
+router.post('/forgot',adminForgotPassword)
 
 // // password update
-// router.put("/password",AdminChangePassword)
+router.put("/password",adminChangePassword)
 
 
 export default router;

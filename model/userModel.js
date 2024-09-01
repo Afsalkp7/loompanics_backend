@@ -126,6 +126,10 @@ const UserSchema = new Schema({
     },
     otpExpires: {
         type: Date,
+    },
+    isBlocked : {
+        type : Boolean,
+        default : false
     }
 });
 
