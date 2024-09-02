@@ -1,18 +1,21 @@
 import express from 'express';
 import { adminAuthMiddleware } from '../middlewares/adminAuthMiddleware.js';
 import upload from '../middlewares/multerConfig.js';
-import { addAuthor, findAuthors } from '../controllers/authorController.js';
+import { addAuthor, authorUpdateStatus, deleteAuthor, findAuthors, findSingleAuthor } from '../controllers/authorController.js';
 const router = express.Router();
 
-//  Get all users
+//  Get all authors
 router.get("/",adminAuthMiddleware,findAuthors)
 
-// // Get single user
-// router.get("/:id",adminAuthMiddleware,findSingleUser)
+// Get single author
+router.get("/:id",adminAuthMiddleware,findSingleAuthor)
 
 
-// // Update user status
-// router.put("/:id",adminAuthMiddleware,updateStatus)
+// Update author details
+router.put("/:id",adminAuthMiddleware,upload.single('image'),authorUpdateStatus)
+
+// Delete author details
+router.delete("/:id",adminAuthMiddleware,deleteAuthor)
 
 // Add author
 

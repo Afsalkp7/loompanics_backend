@@ -11,12 +11,12 @@ const authorSchema = new mongoose.Schema({
   awards: [
     {
       awardTitle: { type: String },
-      awardYear: { type: Date },
+      awardYear: { type: String },
     }
   ],
   image: { type: String },
+  isDeleted: { type: Boolean, default: false }, // Soft delete flag
+  deletedAt: { type: Date, default: null },
 });
 
-const Author = mongoose.model('Author', authorSchema);
-
-export default Author;
+export const Author = mongoose.model('Author', authorSchema);
