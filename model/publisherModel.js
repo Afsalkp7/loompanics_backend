@@ -14,6 +14,9 @@ const publisherSchema = new mongoose.Schema({
     createdAt : {
         type : Date,
         default : Date.now()
+    }, publisherLogo: {
+        type: String, 
+        default: '' 
     },
     isDeleted : {
         type : Boolean,

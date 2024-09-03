@@ -7,6 +7,7 @@ export const adminAuthMiddleware = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if (process.env.adminId == decoded.id) {
             req.user = decoded.id;
+            
             next();
         }else{
             return res.status(401).json({ msg: 'No token, authorization denied' });
