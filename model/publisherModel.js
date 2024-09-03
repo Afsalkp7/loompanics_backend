@@ -8,8 +8,19 @@ const publisherSchema = new mongoose.Schema({
     publisherAddress : {
         type : String
     },
-    publisherWebSiteUrl : {
+    publisherUrl : {
         type : String
+    },
+    createdAt : {
+        type : Date,
+        default : Date.now()
+    },
+    isDeleted : {
+        type : Boolean,
+        default : false
+    },
+    deletedAt : {
+        type: Date
     }
 })
 

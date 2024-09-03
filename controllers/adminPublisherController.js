@@ -1,104 +1,106 @@
-import { Category } from '../model/categoryModel.js'; // Adjust the path based on your folder structure
+import { Publisher } from '../model/publisherModel.js'; // Adjust the path based on your folder structure
 
-export const addCategory = async (req, res) => {
+export const addPublisher = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { publisherName, publisherAddress , publisherUrl } = req.body;
     
     // Validation
-    if (!name || !description) {
-      return res.status(400).json({ message: 'Category name and description are required' });
+    if (!publisherName || !publisherAddress || !publisherUrl) {
+      return res.status(400).json({ message: 'publisher name,address and url are required' });
     }
 
     // Create a new category
-    const newCategory = new Category({
-        categoryName : name,
-      description,
+    const newPublisher = new Publisher({
+        publisherName, 
+        publisherAddress,
+        publisherUrl
     });
 
     // Save the category to the database
-    await newCategory.save();
+    await newPublisher.save();
 
     // Respond with the created category
-    res.status(201).json({ message: 'Category added successfully', category: newCategory });
+    res.status(201).json({ message: 'Category added successfully', publisher: newPublisher});
   } catch (error) {
     console.error('Error adding category:', error);
     res.status(500).json({ message: 'Failed to add category', error: error.message });
   }
 };
 
-export const findCategories = async (req,res) => {
+export const findPublishers = async (req,res) => {
     try {
         // Fetch all categories from the database
-        const categories = await Category.find({ isDeleted: false });
+        const publishers = await Publisher.find({ isDeleted: false });
     
         // Send the fetched categories as a response
-        res.status(200).json(categories);
+        res.status(200).json(publishers);
       } catch (error) {
         console.error('Error fetching categories:', error);
         res.status(500).json({ error: 'Failed to fetch categories' });
       }
 }
 
-export const findSingleCategories = async (req,res) => {
+export const findSinglePublishers = async (req,res) => {
     const { id } = req.params; // Extract the category ID from the URL parameters
 
   try {
     // Find the category by ID
-    const category = await Category.findById(id);
+    const publisher = await Publisher.findById(id);
 
     // Check if the category exists
-    if (!category) {
-      return res.status(404).json({ message: 'Category not found' });
+    if (!publisher) {
+      return res.status(404).json({ message: 'publisher not found' });
     }
 
     // Send the found category as a response
-    res.status(200).json(category);
+    res.status(200).json(publisher);
   } catch (error) {
     console.error('Error fetching category:', error);
     res.status(500).json({ error: 'Failed to fetch the category' });
   }
 }
 
-export const updateSingleCategories = async (req,res) => {
+export const updateSinglePublishers = async (req,res) => {
     const { id } = req.params; // Extract the category ID from the request parameters
-  const { categoryName, description } = req.body; // Extract updated data from the request body
+  const { publisherName, publisherAddress , publisherUrl } = req.body; // Extract updated data from the request body
 
   try {
     // Find the category by ID and update it with the new data
-    const updatedCategory = await Category.findByIdAndUpdate(
+    const updatedPublisher = await Publisher.findByIdAndUpdate(
       id,
-      { categoryName, description },
+      { publisherName, publisherAddress , publisherUrl },
       { new: true, runValidators: true } // Options to return the updated document and run schema validators
     );
 
     // Check if the category was found and updated
-    if (!updatedCategory) {
-      return res.status(404).json({ message: 'Category not found' });
+    if (!updatedPublisher) {
+      return res.status(404).json({ message: 'Publisher not found' });
     }
 
     // Return the updated category details
-    res.status(200).json(updatedCategory);
+    res.status(200).json(updatedPublisher);
   } catch (error) {
     console.error('Error updating category:', error);
     res.status(500).json({ message: 'Failed to update category', error: error.message });
   }
 }
-export const deleteCategory = async (req, res) => {
+
+export const deletePublisher = async (req, res) => {
     const { id } = req.params; // Assuming the category ID is passed as a URL parameter
   
     try {
       // Check if the category exists and is not already deleted
-      const category = await Category.findById(id);
-      if (!category || category.isDeleted) {
-        return res.status(404).json({ message: 'Category not found or already deleted' });
+      const publisher = await Publisher.findById(id);
+      if (!publisher || publisher.isDeleted) {
+        return res.status(404).json({ message: 'publisher not found or already deleted' });
       }
   
       // Perform a soft delete by updating the isDeleted and deletedAt fields
-      category.isDeleted = true;
-      category.deletedAt = new Date();
+      publisher.isDeleted = true;
+      publisher.deletedAt = new Date();
   
       // Save the updated category
-      await category.save();
+      await publisher.save();
   
       // Send a success response
       res.status(200).json({ message: 'Category deleted successfully (soft delete)' });
