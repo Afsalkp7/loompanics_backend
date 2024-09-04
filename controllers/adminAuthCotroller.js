@@ -17,13 +17,13 @@ export const adminLogin = async (req, res) => {
   
       // Check if the user exists
       if (!admin) {
-        return res.status(400).json({ msg: 'Invalid credentials' });
+        return res.status(400).json({ msg: 'Invalid email' });
       }
   
       // Check if the password is correct
       const isMatch = await bcrypt.compare(password, admin.password);
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid credentials' });
+        return res.status(400).json({ msg: 'Invalid password' });
       }
   
       // Generate a JWT token
