@@ -17,7 +17,14 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json())
-app.use(cors())
+
+
+const corsOptions = {
+    origin: ['http://localhost:5173',], // List allowed origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+    credentials: true, // Allow cookies to be sent with requests
+  };
+app.use(cors(corsOptions))
 
 database();
 
