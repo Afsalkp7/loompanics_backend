@@ -11,8 +11,8 @@ const replaySchema = new Schema({
 
 
 const awardSchema = new mongoose.Schema({
-    awardTitle: { type: String, required: true },
-    year: { type: Number, required: true },
+    awardTitle: { type: String },
+    year: { type: Number },
   });
 
 const reviewSchema = new Schema({

@@ -8,12 +8,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Function to upload image to Cloudinary
-const uploadImage = async (filePath) => {
+const uploadImage = async (fileBuffer) => {
   return new Promise((resolve, reject) => {
-    cloudinary.v2.uploader.upload(filePath, (error, result) => {
-      if (error) return reject(error);
-      resolve(result?.secure_url || null);
-    });
+    cloudinary.v2.uploader.upload_stream(
+      { resource_type: 'auto' },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result?.secure_url || null);
+      }
+    ).end(fileBuffer); // End the stream with the file buffer
   });
 };
 
@@ -21,16 +24,13 @@ const uploadImage = async (filePath) => {
 export const addPublisher = async (req, res) => {
   try {
     const { publisherName, publisherAddress, publisherUrl } = req.body;
-
+    
     let image = null;
     if (req.file) {
-      const filePath = path.join(__dirname, '..', 'uploads', req.file.filename);
-      image = await uploadImage(filePath);
-
-      // Delete the file after upload
-      fs.unlinkSync(filePath);
+      image = await uploadImage(req.file.buffer); // Use buffer instead of file path
     }
-
+  
+    
     // Validation
     if (!publisherName || !publisherAddress || !publisherUrl) {
       return res.status(400).json({ message: 'Publisher name, address, and URL are required' });

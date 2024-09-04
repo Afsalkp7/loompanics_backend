@@ -7,21 +7,27 @@ import cloudinary from '../middlewares/cloudinaryConfig.js';
 
 export const addProduct = async (req, res) => {
     try {
-        // Extract image files from the request
         const { files } = req;
 
-        // Function to upload a file to Cloudinary
         const uploadImage = async (file) => {
             if (!file) return '';
-            const result = await cloudinary.v2.uploader.upload(file.path);
-            return result.secure_url;
+            return new Promise((resolve, reject) => {
+                cloudinary.v2.uploader.upload_stream({ resource_type: 'image' },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result.secure_url);
+                    }
+                ).end(file.buffer);
+            });
         };
 
-        // Upload images to Cloudinary
-        const primaryImageUrl = await uploadImage(files['primaryImage'] ? files['primaryImage'][0] : null);
-        const secondaryImageUrl = await uploadImage(files['secondaryImage'] ? files['secondaryImage'][0] : null);
-        const thirdImageUrl = await uploadImage(files['thirdImage'] ? files['thirdImage'][0] : null);
+        const primaryImage = files['primaryImage'] ? files['primaryImage'][0] : null;
+        const secondaryImage = files['secondaryImage'] ? files['secondaryImage'][0] : null;
+        const thirdImage = files['thirdImage'] ? files['thirdImage'][0] : null;
 
+        const primaryImageUrl = await uploadImage(primaryImage);
+        const secondaryImageUrl = await uploadImage(secondaryImage);
+        const thirdImageUrl = await uploadImage(thirdImage);
         // Destructure all required fields from the request body
         const { 
           title, 
@@ -38,7 +44,7 @@ export const addProduct = async (req, res) => {
           awards,
           pagesNumber,            // Newly added field
           copyType,         // Newly added field
-          language          // Newly added field
+          language        // Newly added field
         } = req.body;
 
         // Create a new book entry with the new fields
