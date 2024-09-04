@@ -18,9 +18,15 @@ const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
 
+const corsOptions = {
+  origin: 'http://localhost:5173', // Exact URL of your frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
+  credentials: true, // Allow cookies and other credentials
+  optionsSuccessStatus: 204, // For legacy browser support
+};
 
 // Apply CORS middleware
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Initialize the database
 database();
