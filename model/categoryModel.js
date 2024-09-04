@@ -18,8 +18,8 @@ const categorySchema = new mongoose.Schema({
     },
     deletedAt : {
         type : Date
-    }
-
+    },
+    books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Books' }]
 })
 
 export const Category = mongoose.model('Category', categorySchema);

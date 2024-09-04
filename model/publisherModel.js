@@ -24,7 +24,8 @@ const publisherSchema = new mongoose.Schema({
     },
     deletedAt : {
         type: Date
-    }
+    },
+    books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Books' }]
 })
 
 export const Publisher = mongoose.model('Publisher', publisherSchema);

@@ -17,6 +17,7 @@ const authorSchema = new mongoose.Schema({
   image: { type: String },
   isDeleted: { type: Boolean, default: false }, // Soft delete flag
   deletedAt: { type: Date, default: null },
+  books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Books' }]
 });
 
 export const Author = mongoose.model('Author', authorSchema);

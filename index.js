@@ -9,6 +9,7 @@ import userRouter from './routes/userManagement.js'
 import authorsRouter from './routes/authorsRouter.js'
 import categoryRouter from './routes/categoryRoute.js'
 import publisherRouter from './routes/publisherRouter.js'
+import productRouter from './routes/productRouter.js'
 
 dotenv.config()
 
@@ -27,6 +28,7 @@ app.use("/api/users",userRouter)
 app.use("/api/authors",authorsRouter)
 app.use("/api/categories",categoryRouter)
 app.use("/api/publishers",publisherRouter)
+app.use("/api/products",productRouter)
 
 
 app.get('/',(req,res)=>{
