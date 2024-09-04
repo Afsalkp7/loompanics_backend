@@ -19,11 +19,11 @@ const PORT = process.env.PORT || 4000;
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // Exact URL of your frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  credentials: true, // Allow cookies and other credentials
-  optionsSuccessStatus: 204, // For legacy browser support
-};
+    origin: ['http://localhost:5173', 'https://your-frontend-domain.vercel.app'], // Allow your frontend domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    credentials: true, // Allow credentials such as cookies
+  };
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
