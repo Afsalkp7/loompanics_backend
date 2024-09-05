@@ -19,13 +19,13 @@ const PORT = process.env.PORT || 4000;
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'], // Exact URL of your frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow specific HTTP methods
-  credentials: true, // Allow cookies and other credentials
-  optionsSuccessStatus: 204, // For legacy browser support
+  origin: ['https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'], 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, 
+  optionsSuccessStatus: 204, 
 };
 
-// Apply CORS middleware
+// Apply CORS middleware 
 app.use(cors(corsOptions));
 
 // Initialize the database
