@@ -1,5 +1,5 @@
-import { Contact } from "../model/contactusModel";
-import { handleMessageFromCustomer } from "../utils/mailOptions";
+import Contact from "../model/contactusModel.js";
+import { handleMessageFromCustomer } from "../utils/mailOptions.js";
 
 export const addMessage = async (req, res) => {
   try {
