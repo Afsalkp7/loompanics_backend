@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 4000;
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: ['https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'],
+  origin: 'https://loompanics.vercel.app/',
   credentials: true, 
 };
 
