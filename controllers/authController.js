@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import User from '../model/userModel.js';
-import { sendVerificationEmail } from '../utils/sendOtp.js';
+import { sendVerificationEmail } from '../utils/mailOptions.js';
 
 dotenv.config();
 

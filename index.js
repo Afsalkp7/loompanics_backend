@@ -10,6 +10,7 @@ import authorsRouter from './routes/authorsRouter.js';
 import categoryRouter from './routes/categoryRoute.js';
 import publisherRouter from './routes/publisherRouter.js';
 import productRouter from './routes/productRouter.js';
+import contactRouter from './routes/contactRouter.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/publishers', publisherRouter);
 app.use('/api/products', productRouter);
+app.use('api/contact' , contactRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({ msg: 'connect' });
