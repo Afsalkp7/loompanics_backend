@@ -18,17 +18,13 @@ const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
 
-// const corsOptions = {
-//   origin: ['https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'], 
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-//   allowedHeaders: ['Content-Type', 'Authorization'],
-//   credentials: true, 
-//   optionsSuccessStatus: 204, 
-// };
+const corsOptions = {
+  origin: ['https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'],
+};
 
 // app.options('*', cors(corsOptions)); 
 // Apply CORS middleware 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Initialize the database
 database();
