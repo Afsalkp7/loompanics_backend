@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 const corsOptions = {
   origin: ['https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'], 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, 
   optionsSuccessStatus: 204, 
 };
