@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 
 const corsOptions = {
   origin: ['https://loompanics-admin.vercel.app/' , 'https://loompanics.vercel.app/'],
+  credentials: true, 
 };
 
 // app.options('*', cors(corsOptions)); 
