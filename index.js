@@ -26,6 +26,7 @@ const corsOptions = {
   optionsSuccessStatus: 204, 
 };
 
+app.options('*', cors(corsOptions)); 
 // Apply CORS middleware 
 app.use(cors(corsOptions));
 
