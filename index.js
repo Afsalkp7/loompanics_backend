@@ -39,7 +39,7 @@ app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/publishers', publisherRouter);
 app.use('/api/products', productRouter);
-app.use('api/contact' , contactRouter)
+app.use('/api/contact' , contactRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({ msg: 'connect' });
