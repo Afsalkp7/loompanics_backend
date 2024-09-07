@@ -89,7 +89,9 @@ export const login = async (req, res) => {
     }
 
     // Check if the user is blocked
-    if (user.isBlocked) return res.status(403).json({ msg: 'User is blocked. Please contact support.' });
+    if (user.isBlocked) {
+      return res.status(403).json({ msg: 'User is blocked. Please contact support.' });
+    }
 
     // Check if the user's email is verified
     if (!user.isVerified) {
@@ -102,6 +104,10 @@ export const login = async (req, res) => {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
+    // Update the user's last login date
+    user.dateLastLogged = Date.now();
+    await user.save();
+
     // Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -113,6 +119,7 @@ export const login = async (req, res) => {
         id: user._id,
         email: user.email,
         name: user.name,
+        dateLastLogged: user.dateLastLogged,
       },
     });
   } catch (err) {
@@ -120,6 +127,7 @@ export const login = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
 
 // Forgot Password
 export const forgotPassword = async (req, res) => {

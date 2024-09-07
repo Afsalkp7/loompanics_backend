@@ -94,6 +94,10 @@ const UserSchema = new Schema({
     cart: {
         type: [cartSchema],
     },
+    wishList : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Books'
+    }],
     isMember: {
         type: Boolean,
         default: false,
