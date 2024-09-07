@@ -2,27 +2,46 @@ import { Category } from '../model/categoryModel.js'; // Adjust the path based o
 
 export const addCategory = async (req, res) => {
   try {
-    const { name, description } = req.body;
-    
-    // Validation
-    if (!name || !description) {
-      return res.status(400).json({ message: 'Category name and description are required' });
-    }
+    // Array of categories to be added
+    const categories = [
+      { categoryName: "Science Fiction", description: "Books exploring futuristic concepts and technology." },
+      { categoryName: "Fantasy", description: "Books featuring magical or supernatural elements." },
+      { categoryName: "Mystery", description: "Books focused on solving a crime or uncovering secrets." },
+      { categoryName: "Thriller", description: "Books with fast-paced, suspenseful plots." },
+      { categoryName: "Romance", description: "Books centered around romantic relationships." },
+      { categoryName: "Horror", description: "Books designed to scare, unsettle, or thrill the reader." },
+      { categoryName: "Historical Fiction", description: "Books set in a particular historical period." },
+      { categoryName: "Biography", description: "Books about the lives of real people." },
+      { categoryName: "Self-Help", description: "Books that provide advice on personal improvement." },
+      { categoryName: "Non-Fiction", description: "Books based on factual information and events." },
+      { categoryName: "Adventure", description: "Books with exciting and risky experiences." },
+      { categoryName: "Young Adult", description: "Books targeted at teenage readers." },
+      { categoryName: "Children’s", description: "Books for young children and early readers." },
+      { categoryName: "Graphic Novels", description: "Books told through comic-style illustrations." },
+      { categoryName: "Poetry", description: "Books of poems and verse." },
+      { categoryName: "Drama", description: "Books featuring conflict and intense emotional themes." },
+      { categoryName: "Science", description: "Books focused on scientific subjects and discoveries." },
+      { categoryName: "Art", description: "Books about art, design, and creative expression." },
+      { categoryName: "Philosophy", description: "Books exploring philosophical topics and ideas." },
+      { categoryName: "Cooking", description: "Books with recipes and culinary techniques." }
+    ];
 
-    // Create a new category
-    const newCategory = new Category({
-        categoryName : name,
-      description,
-    });
+    // Map the categories to include required fields like isDeleted, books, and createdAt
+    const categoriesToInsert = categories.map(category => ({
+      ...category,
+      isDeleted: false,
+      books: [],
+      createdAt: new Date() // Sets the current date and time as a Date object
+    }));
 
-    // Save the category to the database
-    await newCategory.save();
+    // Insert categories into the database
+    const insertedCategories = await Category.insertMany(categoriesToInsert);
 
-    // Respond with the created category
-    res.status(201).json({ message: 'Category added successfully', category: newCategory });
+    // Respond with the inserted categories
+    res.status(201).json({ message: 'Categories added successfully', categories: insertedCategories });
   } catch (error) {
-    console.error('Error adding category:', error);
-    res.status(500).json({ message: 'Failed to add category', error: error.message });
+    console.error('Error adding categories:', error);
+    res.status(500).json({ message: 'Failed to add categories', error: error.message });
   }
 };
 

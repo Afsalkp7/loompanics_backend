@@ -125,6 +125,10 @@ const UserSchema = new Schema({
     otp: {
         type: Number,
     },
+    createdAt : {
+        type : Date
+    },
+    searchedKeys : [String],
     dateLastLogged: {
         type: Date,
     },

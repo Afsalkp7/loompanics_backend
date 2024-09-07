@@ -62,7 +62,8 @@ export const verifyOtp = async (req, res) => {
     // Mark the user as verified
     user.isVerified = true;
     user.otp = undefined; // Clear the OTP
-    user.otpExpires = undefined; // Clear OTP expiration time
+    user.otpExpires = undefined; 
+    user.createdAt = Date.now();// Clear OTP expiration time
     await user.save();
 
     // Generate JWT token after successful verification
