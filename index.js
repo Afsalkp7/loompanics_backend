@@ -11,27 +11,21 @@ import categoryRouter from './routes/categoryRoute.js';
 import publisherRouter from './routes/publisherRouter.js';
 import productRouter from './routes/productRouter.js';
 import contactRouter from './routes/contactRouter.js';
-import socketEvents from './utils/socketEvents.js';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: process.env.SOCKET_IO_ORIGINS?.split(',') || [],
-    methods: ['GET', 'POST'],
-  },
-});
-
-
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
+// const corsOptions = {
+//   origin: 'https://loompanics.vercel.app/',
+//   credentials: true, 
+// };
+
+// app.options('*', cors(corsOptions)); 
+// Apply CORS middleware 
 app.use(cors());
 
 // Initialize the database
@@ -51,10 +45,6 @@ app.get('/', (req, res) => {
   res.status(200).json({ msg: 'connect' });
 });
 
-socketEvents(io);
-
-httpServer.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
-}).on('error', (err) => {
-  console.error(`Failed to start the server: ${err.message}`);
 });
