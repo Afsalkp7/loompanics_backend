@@ -1,5 +1,5 @@
 // socketEvents.js
-import Message from '../model/Message.js';
+import { Message } from "../model/message.js";
 
 export default (io) => {
   io.on('connection', (socket) => {
