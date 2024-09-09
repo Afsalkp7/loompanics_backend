@@ -91,12 +91,12 @@ export const addProduct = async (req, res) => {
 // Fetch all products
 export const findProducts = async (req, res) => {
   try {
-    const products = await Books.find(); // You can add filters or projections if needed
+    const products = await Books.find().populate("authorId").populate('categoryId').populate('publisherId'); // You can add filters or projections if needed
 
     if (!products || products.length === 0) {
       return res.status(404).json({ message: 'No products found' });
     }
-
+    
     res.status(200).json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -108,12 +108,12 @@ export const findProducts = async (req, res) => {
 export const findSingleProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Books.findById(id);
+    const product = await Books.findById(id).populate("authorId").populate('categoryId').populate('publisherId');
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-
+    
     res.status(200).json(product);
   } catch (error) {
     console.error('Error finding product:', error);

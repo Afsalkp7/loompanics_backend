@@ -44,9 +44,9 @@ export const findSingleCategories = async (req,res) => {
 
   try {
     // Find the category by ID
-    const category = await Category.findById(id);
-
-    // Check if the category exists
+    const category = await Category.findById(id).populate("books");
+    
+    // Check if the category exists 
     if (!category) {
       return res.status(404).json({ message: 'Category not found' });
     }

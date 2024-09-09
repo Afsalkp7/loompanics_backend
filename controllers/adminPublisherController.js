@@ -69,7 +69,7 @@ export const findPublishers = async (req, res) => {
 export const findSinglePublishers = async (req, res) => {
   const { id } = req.params;
   try {
-    const publisher = await Publisher.findById(id);
+    const publisher = await Publisher.findById(id).populate('books');
     if (!publisher) {
       return res.status(404).json({ message: 'Publisher not found' });
     }
