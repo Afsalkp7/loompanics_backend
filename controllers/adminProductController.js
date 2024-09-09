@@ -125,6 +125,7 @@ export const findSingleProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { files } = req;
+  
 
   try {
     // Fetch current product to update
@@ -132,7 +133,7 @@ export const updateProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-
+    
     // Handle file uploads and update images if new files are provided
     const primaryImage = files['primaryImage'] ? files['primaryImage'][0] : null;
     const secondaryImage = files['secondaryImage'] ? files['secondaryImage'][0] : null;
@@ -184,5 +185,30 @@ export const updateProduct = async (req, res) => {
   } catch (error) {
     console.error('Error updating product:', error);
     res.status(500).json({ message: 'Error updating product', error: error.message });
+  }
+};
+
+
+export const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await Books.findByIdAndUpdate(
+      id,
+      {
+        isDeleted: true,
+        deletedAt: new Date(),
+      },
+      { new: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: 'product not found' });
+    }
+
+    res.status(200).json({ message: 'product deleted successfully', product });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'Failed to delete product', error: error.message });
   }
 };
