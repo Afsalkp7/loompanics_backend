@@ -1,7 +1,7 @@
 import express from 'express';
 import { adminAuthMiddleware } from '../middlewares/adminAuthMiddleware.js';
 import upload from '../middlewares/multerConfig.js';
-import { addProduct, findProducts } from '../controllers/adminProductController.js';
+import { addProduct, findProducts, findSingleProduct } from '../controllers/adminProductController.js';
 
 const router = express.Router();
 
@@ -12,7 +12,8 @@ router.post('/', adminAuthMiddleware, upload.fields([
     { name: 'thirdImage', maxCount: 1 }
   ]) , addProduct);
 
-  router.get("/", adminAuthMiddleware , findProducts)
+router.get("/", adminAuthMiddleware , findProducts)
+router.get("/:id", adminAuthMiddleware , findSingleProduct)
 
 
 export default router;
