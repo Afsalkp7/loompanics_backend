@@ -7,13 +7,12 @@ const replaySchema = new Schema({
   comment: { type: String, required: true },
   replayLikedUserIds: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   replayDislikedUserIds: [{ type: Schema.Types.ObjectId, ref: 'User' }]
-});
-
+}, { timestamps: true }); // Add timestamps option here
 
 const awardSchema = new mongoose.Schema({
     awardTitle: { type: String },
     year: { type: Number },
-  });
+}, { timestamps: true }); // Optionally add timestamps to awards if needed
 
 const reviewSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -21,7 +20,7 @@ const reviewSchema = new Schema({
   comments: { type: String, required: true },
   dislikes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   replay: replaySchema
-});
+}, { timestamps: true }); // Add timestamps option here
 
 const bookSchema = new Schema({
   title: {
@@ -72,10 +71,8 @@ const bookSchema = new Schema({
   discount: {
     type: Number
   },
-  awards: {
-    type:  [awardSchema]
-  },
-  reviews: [reviewSchema],
+  awards: [awardSchema], // Using array of awardSchema
+  reviews: [reviewSchema], // Using array of reviewSchema
   isDeleted : {
     type : Boolean,
     default : false
@@ -92,6 +89,6 @@ const bookSchema = new Schema({
   copyType : {
     type : String
   }
-});
+}, { timestamps: true }); // Add timestamps option here
 
 export const Books = mongoose.model('Books', bookSchema);
