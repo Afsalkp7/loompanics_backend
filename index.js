@@ -11,7 +11,7 @@ import categoryRouter from './routes/categoryRoute.js';
 import publisherRouter from './routes/publisherRouter.js';
 import productRouter from './routes/productRouter.js';
 import contactRouter from './routes/contactRouter.js';
-
+import shopRouter from './routes/user/shopRouter.js'
 dotenv.config();
 
 const app = express();
@@ -39,6 +39,7 @@ app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/publishers', publisherRouter);
 app.use('/api/products', productRouter);
+app.use('/api/shop', shopRouter);
 app.use('/api/contact' , contactRouter)
 
 app.get('/', (req, res) => {
