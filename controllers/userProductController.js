@@ -3,7 +3,7 @@ import { Books } from '../model/booksModel.js';
 
 export const userFindProducts = async (req, res) => {
     try {
-      const products = await Books.find().populate('categoryId',"categoryName").populate("authorId","firstName lastName"); 
+      const products = await Books.find().populate('categoryId',"categoryName books").populate("authorId","firstName lastName books"); 
   
       if (!products || products.length === 0) {
         return res.status(404).json({ message: 'No products found' });
