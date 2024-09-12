@@ -1,15 +1,15 @@
 import nodemailer from 'nodemailer';
 
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-export const sendVerificationEmail = async (email, otp) => {
 
+export const sendVerificationEmail = async (email, otp) => {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
@@ -26,7 +26,13 @@ export const sendVerificationEmail = async (email, otp) => {
   }
 };
 export const handleMessageFromCustomer = async (email, subject , review) => {
-
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
   const mailOptions = {
     from: email,
     to: process.env.EMAIL_USER,

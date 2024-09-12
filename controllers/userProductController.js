@@ -16,3 +16,32 @@ export const userFindProducts = async (req, res) => {
     }
   };
   
+  export const userFindSingleProduct = async (req, res) => {
+    const { _id } = req.params;
+    try {
+      const product = await Books.findById(_id)
+        .populate({
+          path: 'authorId',
+          populate: {
+            path: 'books',
+          },
+        })
+        .populate({
+            path:'categoryId',
+            populate:{
+                path:'books',
+            },
+        })
+        .populate('publisherId');
+  
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      res.status(200).json(product);
+    } catch (error) {
+      console.error('Error finding product:', error);
+      res.status(500).json({ message: 'Error finding product', error: error.message });
+    }
+  };
+  
