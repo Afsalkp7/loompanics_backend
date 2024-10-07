@@ -1,6 +1,7 @@
 import express from 'express';
 import { adminAuthMiddleware } from '../middlewares/adminAuthMiddleware.js';
 import { addCategory, deleteCategory, findCategories, findSingleCategories, updateSingleCategories } from '../controllers/adminCategoryController.js';
+import { authMiddleware } from '../middlewares/authMiddlewares.js';
 const router = express.Router();
 
 

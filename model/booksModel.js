@@ -89,6 +89,5 @@ const bookSchema = new Schema({
   copyType : {
     type : String
   }
-}, { timestamps: true }); // Add timestamps option here
-
+}, { timestamps: true });
 export const Books = mongoose.model('Books', bookSchema);

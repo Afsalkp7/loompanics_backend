@@ -8,10 +8,6 @@ const categorySchema = new mongoose.Schema({
     description : {
         type : String
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
     isDeleted: {
         type : Boolean,
         default : false
@@ -20,6 +16,6 @@ const categorySchema = new mongoose.Schema({
         type : Date
     },
     books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Books' }]
-})
+}, { timestamps: true });
 
 export const Category = mongoose.model('Category', categorySchema);
