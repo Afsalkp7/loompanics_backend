@@ -11,8 +11,9 @@ import categoryRouter from './routes/categoryRoute.js';
 import publisherRouter from './routes/publisherRouter.js';
 import productRouter from './routes/productRouter.js';
 import contactRouter from './routes/contactRouter.js';
-import shopRouter from './routes/user/shopRouter.js'
-import userCategoryRouter from './routes/user/categoryRouter.js'
+import shopRouter from './routes/user/shopRouter.js';
+import userCartRouter from './routes/user/cartRouter.js';
+import userCategoryRouter from './routes/user/categoryRouter.js';
 dotenv.config();
 
 const app = express();
@@ -43,6 +44,7 @@ app.use('/api/products', productRouter);
 app.use('/api/shop', shopRouter);
 app.use('/api/contact' , contactRouter);
 app.use('/api/user/category',userCategoryRouter)
+app.use('/api/cart',userCartRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({ msg: 'connect' });

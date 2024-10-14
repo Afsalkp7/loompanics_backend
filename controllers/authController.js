@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import User from '../model/userModel.js';
 import { sendVerificationEmail } from '../utils/mailOptions.js';
+import { sendMobileOtp } from '../utils/mobileOtpOptions.js';
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ export const register = async (req, res) => {
     });
 
     await sendVerificationEmail(email, otp);
+    // await sendMobileOtp(otp, phoneNumber);
+
     return res.json({
       email: email,
       openOtp: true,
@@ -133,7 +136,6 @@ export const login = async (req, res) => {
 // Forgot Password
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
 
   try {
     // Find the user by email
@@ -154,6 +156,7 @@ export const forgotPassword = async (req, res) => {
 
     // Send OTP via email
     await sendVerificationEmail(email, otp);
+    // await sendMobileOtp(otp, user.phoneNumber);
 
     // Respond with success message
     res.json({
