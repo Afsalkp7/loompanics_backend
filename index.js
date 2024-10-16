@@ -18,17 +18,11 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+// Apply CORS middleware 
+app.use(cors());
 
 app.use(bodyParser.json());
 
-// const corsOptions = {
-//   origin: 'https://loompanics.vercel.app/',
-//   credentials: true, 
-// };
-
-// app.options('*', cors(corsOptions)); 
-// Apply CORS middleware 
-app.use(cors());
 
 // Initialize the database
 database();
