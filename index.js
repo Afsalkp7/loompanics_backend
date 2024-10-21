@@ -15,6 +15,7 @@ import shopRouter from './routes/user/shopRouter.js';
 import userCartRouter from './routes/user/cartRouter.js';
 import userCategoryRouter from './routes/user/categoryRouter.js';
 import userProfileRouter from './routes/user/profileRouter.js';
+import addressRouter from './routes/user/addressRoute.js'
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use('/api/contact' , contactRouter);
 app.use('/api/user/category',userCategoryRouter)
 app.use('/api/cart',userCartRouter)
 app.use('/api/user/profile',userProfileRouter)
+app.use("/api/addresses",addressRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({ msg: 'connect' });
