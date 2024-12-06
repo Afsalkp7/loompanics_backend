@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import User from '../model/userModel.js';
 import { sendVerificationEmail } from '../utils/mailOptions.js';
-import { sendMobileOtp } from '../utils/mobileOtpOptions.js';
+// import { sendMobileOtp } from '../utils/mobileOtpOptions.js';
 
 dotenv.config();
 
@@ -116,7 +116,7 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Respond with the token and user information
-    res.json({
+    res.status(200).json({
       msg: 'Login successful!',
       token,
       user: {
