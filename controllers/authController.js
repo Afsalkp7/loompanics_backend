@@ -72,7 +72,7 @@ export const verifyOtp = async (req, res) => {
     // Generate JWT token after successful verification
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    return res.json({ msg: 'OTP verified successfully', token });
+    return res.status(200).json({ msg: 'OTP verified successfully', token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: 'Server error' });
