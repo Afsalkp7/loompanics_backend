@@ -45,18 +45,27 @@ export const getCart = async (req, res) => {
     }
 
     try {
-        // Find the user by ID
         const user = await User.findById(userId).populate({
-            path: 'cart.bookId', 
-            select: 'title price',
+            path: 'cart.bookId',
+            select: 'title primaryImageUrl originalPrice discount',
         });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        // Combine book details with quantity
+        const cartItems = user.cart.map((item) => ({
+            bookId: item.bookId._id,
+            title: item.bookId.title,
+            primaryImageUrl: item.bookId.primaryImageUrl,
+            originalPrice: item.bookId.originalPrice,
+            discount: item.bookId.discount,
+            quantity: item.quantity,
+        }));
+
         // Return the cart items
-        return res.status(200).json({ cartItems: user.cart });
+        return res.status(200).json({ cartItems });
     } catch (error) {
         return res.status(500).json({ message: 'Server error', error });
     }
