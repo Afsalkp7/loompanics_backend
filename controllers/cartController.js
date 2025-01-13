@@ -47,7 +47,7 @@ export const getCart = async (req, res) => {
     try {
         const user = await User.findById(userId).populate({
             path: 'cart.bookId',
-            select: 'title primaryImageUrl originalPrice discount',
+            select: ' title primaryImageUrl originalPrice discount',
         });
 
         if (!user) {
@@ -62,6 +62,7 @@ export const getCart = async (req, res) => {
             originalPrice: item.bookId.originalPrice,
             discount: item.bookId.discount,
             quantity: item.quantity,
+            cartId: item._id
         }));
 
         // Return the cart items
@@ -70,3 +71,34 @@ export const getCart = async (req, res) => {
         return res.status(500).json({ message: 'Server error', error });
     }
 };
+
+export const deleteCart = async (req, res) => {
+    const userId = req.user;
+  
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+  
+    try {
+      const { cartId } = req.body;
+  
+      if (!cartId) {
+        return res.status(400).json({ message: "Cart ID is required" });
+      }
+  
+      // Find the user and remove the cart item with the given cartId
+      const result = await User.updateOne(
+        { _id: userId },
+        { $pull: { cart: { _id: cartId } } }
+      );
+  
+      if (result.modifiedCount === 0) {
+        return res.status(404).json({ message: "Cart item not found" });
+      }
+  
+      return res.status(200).json({ message: "Cart item deleted successfully" });
+    } catch (error) {
+      return res.status(500).json({ message: "Server error", error });
+    }
+  };
+  
