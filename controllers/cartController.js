@@ -102,3 +102,41 @@ export const deleteCart = async (req, res) => {
     }
   };
   
+  export const updateQuantity = async (req, res) => {
+    const userId = req.user;
+
+    if (!userId) {
+        return res.status(200).json({ message: "User ID is required" });
+    }
+
+    try {
+        const { cartId, quantity } = req.body;
+
+        if (!cartId || quantity === undefined) {
+            return res.status(200).json({ message: "Cart ID and quantity are required" });
+        }
+
+        if (quantity > 5) {
+            return res.status(200).json({ message: "Maximum 5 quantity allowed at a time for the same item" });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(200).json({ message: "User not found" });
+        }
+
+        const cartItem = user.cart.find((item) => item._id.toString() === cartId);
+        if (!cartItem) {
+            return res.status(200).json({ message: "Cart item not found" });
+        }
+
+        cartItem.quantity = quantity;
+
+        await user.save();
+
+        return res.status(200).json({ message: "Cart item quantity updated successfully", cart: user.cart });
+
+    } catch (error) {
+        return res.status(500).json({ message: "Server error", error });
+    }
+};
