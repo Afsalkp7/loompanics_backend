@@ -16,6 +16,8 @@ import userCartRouter from './routes/user/cartRouter.js';
 import userCategoryRouter from './routes/user/categoryRouter.js';
 import userProfileRouter from './routes/user/profileRouter.js';
 import addressRouter from './routes/user/addressRoute.js'
+import posterRouter from './routes/posterRouter.js'
+import userPosterRouter from './routes/user/posterRouter.js'
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use('/api/adminAuth', adminAuth);
 app.use('/api/users', userRouter);
 app.use('/api/authors', authorsRouter);
 app.use('/api/categories', categoryRouter);
+app.use('/api/posters', posterRouter)
+app.use('/api/user/posters',userPosterRouter)
 app.use('/api/publishers', publisherRouter);
 app.use('/api/products', productRouter);
 app.use('/api/shop', shopRouter);
