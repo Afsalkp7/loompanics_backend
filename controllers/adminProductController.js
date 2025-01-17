@@ -49,6 +49,8 @@ export const addProduct = async (req, res) => {
       pagesNumber,
       copyType,
       language,
+      isFeatured,
+      isTrending
     } = req.body;
 
     // Create a new book entry
@@ -71,6 +73,8 @@ export const addProduct = async (req, res) => {
       pages: pagesNumber,
       copyType,
       language,
+      isFeatured,
+      isTrending
     });
 
     // Save the book to the database
@@ -160,6 +164,8 @@ export const updateProduct = async (req, res) => {
       pagesNumber,
       copyType,
       language,
+      isTrending,
+      isFeatured
     } = req.body;
 
     product.title = title || product.title;
@@ -177,7 +183,8 @@ export const updateProduct = async (req, res) => {
     product.pages = pagesNumber || product.pages;
     product.copyType = copyType || product.copyType;
     product.language = language || product.language;
-
+    product.isFeatured = isFeatured || product.isFeatured,
+    product.isTrending = isTrending || product.isTrending
     // Save the updated product
     await product.save();
 

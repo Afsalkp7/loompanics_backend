@@ -72,7 +72,15 @@ const bookSchema = new Schema({
     type: Number
   },
   awards: [awardSchema], // Using array of awardSchema
-  reviews: [reviewSchema], // Using array of reviewSchema
+  reviews: [reviewSchema],
+  isFeatured : {
+    type : Boolean,
+    default:false
+  },
+  isTrending : {
+    type : Boolean,
+    default:false
+  }, 
   isDeleted : {
     type : Boolean,
     default : false
