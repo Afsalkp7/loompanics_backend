@@ -4,7 +4,7 @@ export const findPosters = async (req,res) => {
     try {
         
         // Fetch all categories from the database
-        const posters = await Poster.find({ isDeleted: false });
+        const posters = await Poster.find({ isDeleted: false }).sort({ createdAt: -1 });
     
         // Send the fetched categories as a response
         res.status(200).json(posters);
