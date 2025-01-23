@@ -21,6 +21,15 @@ const orderedItemsSchema = new mongoose.Schema({
     totalAmount : {
         type : Number
     },
+    discount : {
+        type : Number
+    },
+    deliveryCharge : {
+        type : Number
+    },
+    amount : {
+        type : Number
+    },
     status : {
         type : String
     },

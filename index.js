@@ -18,7 +18,7 @@ import userProfileRouter from './routes/user/profileRouter.js';
 import addressRouter from './routes/user/addressRoute.js'
 import posterRouter from './routes/posterRouter.js'
 import userPosterRouter from './routes/user/posterRouter.js'
-
+import orderRouter from './routes/user/orderRoute.js'
 dotenv.config();
 
 const app = express();
@@ -48,7 +48,7 @@ app.use('/api/user/category',userCategoryRouter)
 app.use('/api/cart',userCartRouter)
 app.use('/api/user/profile',userProfileRouter)
 app.use("/api/addresses",addressRouter)
-
+app.use("/api/order",orderRouter)
 app.get('/', (req, res) => {
   res.status(200).json({ msg: 'connect' });
 });

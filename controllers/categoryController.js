@@ -4,9 +4,12 @@ export const findCategories = async (req,res) => {
     try {
         // Fetch all categories from the database
         const categories = await Category.find({ isDeleted: false });
-    
+     // Filter categories to include only those where books length > 0
+     const filteredCategories = categories.filter(category => 
+      Array.isArray(category.books) && category.books.length > 0
+    );
         // Send the fetched categories as a response
-        res.status(200).json(categories);
+        res.status(200).json(filteredCategories);
       } catch (error) {
         console.error('Error fetching categories:', error);
         res.status(500).json({ error: 'Failed to fetch categories' });
